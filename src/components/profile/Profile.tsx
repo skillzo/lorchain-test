@@ -5,7 +5,6 @@ import { BsFillPersonFill } from "react-icons/bs";
 
 export default function Profile(user: any) {
   const userData = user?.user;
-  console.log(userData?.avatar_url);
   return (
     <div className="flex lg:flex-col lg:items-center items-center space-x-4 md:space-x-[2em] lg:space-x-0">
       <div className="relative w-[100px] h-[100px] md:w-[200px] md:h-[200px] lg:w-[300px] lg:h-[300px] object-cover rounded-full ">
