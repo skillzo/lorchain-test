@@ -51,8 +51,6 @@ export default function Home() {
   const user = userData?.data;
   const repo = repoData?.data;
 
-  console.log(repo.length);
-  // types
   return (
     <>
       <Head>
@@ -71,7 +69,7 @@ export default function Home() {
       <HomeLayout>
         {/* initialState before user intracts */}
 
-        {!userData && !repoData && !isLoading && (
+        {!userData && !repoData && !isLoading && !isError && (
           <Feedbacks
             component={<BsSearch size={100} />}
             text=" Start with searching a GitHub user"
@@ -96,7 +94,7 @@ export default function Home() {
         )}
 
         {/* render the user info */}
-        {userData && (
+        {userData && !isError && (
           <div className="space-y-[3em] md:space-y-[5em] lg:space-y-0 lg:flex lg:justify-between">
             {userData && (
               <div className="lg:w-[25%]">
@@ -105,7 +103,7 @@ export default function Home() {
             )}
 
             {/* if the repo is empty */}
-            {repo.length < 0 && (
+            {repo?.length < 0 && (
               <Feedbacks
                 component={<MdCancelPresentation size={100} />}
                 text="User not found"
