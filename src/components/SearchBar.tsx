@@ -18,7 +18,6 @@ export default function SearchBar({
       refetchUser();
       refetchRepo();
       setSearch("");
-      console.log("i was pressed");
     }
   };
   return (

@@ -8,8 +8,9 @@ import axios from "axios";
 import SearchBar from "@/components/SearchBar";
 import { useState } from "react";
 import { PulseLoader } from "react-spinners";
-import InitialState from "@/components/feedbacks/InitialState";
 import Feedbacks from "@/components/feedbacks/Feedbacks";
+import { BsPerson, BsSearch } from "react-icons/bs";
+import { MdCancelPresentation } from "react-icons/md";
 
 export default function Home() {
   const [searchUser, setSearchUser] = useState("");
@@ -50,8 +51,8 @@ export default function Home() {
   const user = userData?.data;
   const repo = repoData?.data;
 
+  console.log(repo.length);
   // types
-
   return (
     <>
       <Head>
@@ -69,7 +70,13 @@ export default function Home() {
       />
       <HomeLayout>
         {/* initialState before user intracts */}
-        {!userData && !repoData && !isLoading && <InitialState />}
+
+        {!userData && !repoData && !isLoading && (
+          <Feedbacks
+            component={<BsSearch size={100} />}
+            text=" Start with searching a GitHub user"
+          />
+        )}
 
         {/* data is loading  */}
         {isLoading && (
@@ -81,9 +88,15 @@ export default function Home() {
         )}
 
         {/* if an error occured */}
+        {isError && (
+          <Feedbacks
+            component={<BsPerson size={100} />}
+            text="User not found"
+          />
+        )}
 
         {/* render the user info */}
-        {userData && repoData && (
+        {userData && (
           <div className="space-y-[3em] md:space-y-[5em] lg:space-y-0 lg:flex lg:justify-between">
             {userData && (
               <div className="lg:w-[25%]">
@@ -91,6 +104,13 @@ export default function Home() {
               </div>
             )}
 
+            {/* if the repo is empty */}
+            {repo.length < 0 && (
+              <Feedbacks
+                component={<MdCancelPresentation size={100} />}
+                text="User not found"
+              />
+            )}
             {repoData && (
               <section className="space-y-[1em] lg:w-[70%]">
                 <h1 className="text-2xl font-semibold">
@@ -102,6 +122,7 @@ export default function Home() {
                     return (
                       <Repo
                         key={item.id}
+                        url={item.html_url}
                         name={item.name}
                         description={item.description}
                       />

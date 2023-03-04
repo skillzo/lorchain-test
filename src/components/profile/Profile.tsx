@@ -19,9 +19,13 @@ export default function Profile(user: any) {
         <p className="font-semibold  text-2xl w-[90%] md:w-[60%] truncate">
           {userData?.name || "skillzo"}
         </p>
-        <p className="text-blue-p font-semibold">
+        <a
+          href={userData?.html_url}
+          target="_blank"
+          className="text-blue-p font-semibold text-md"
+        >
           {userData?.login || "skillzo"}
-        </p>
+        </a>
         <div className="mt-2">
           <div className="flex items-center space-x-2">
             <MdPeopleAlt size={15} color="#191C1F" />

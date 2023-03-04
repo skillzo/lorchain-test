@@ -9,9 +9,9 @@ interface props {
 export default function Feedbacks({ component, text }: props) {
   return (
     <FeedbackLayout>
-      <div className="text-[#808080] flex flex-col items-center border border-black">
+      <div className="text-[#808080] flex flex-col items-center justify-center">
         {component}
-        <p className="w-[60%] text-center text-medium">{text}</p>
+        <p className="w-max text-center text-medium mt-4">{text}</p>
       </div>
     </FeedbackLayout>
   );

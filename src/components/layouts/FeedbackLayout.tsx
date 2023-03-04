@@ -6,7 +6,7 @@ interface props {
 
 export default function FeedbackLayout({ children }: props) {
   return (
-    <div className="fixed top-0 left-0 h-full w-full flex items-center justify-center">
+    <div className="fixed z-10 top-[45%] left-0  my-auto w-full ">
       {children}
     </div>
   );
