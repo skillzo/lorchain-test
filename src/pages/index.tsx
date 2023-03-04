@@ -7,16 +7,19 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import SearchBar from "@/components/SearchBar";
 import { useState } from "react";
+import { PulseLoader } from "react-spinners";
+import InitialState from "@/components/feedbacks/InitialState";
+import Feedbacks from "@/components/feedbacks/Feedbacks";
 
 export default function Home() {
   const [searchUser, setSearchUser] = useState("");
   const repoUrl = `https://api.github.com/users/${searchUser}/repos?page=1&per_page=4&sort=updated`;
   const userUrl = `https://api.github.com/users/${searchUser}`;
+
+  // api call using react query
   const {
     data: userData,
-    isLoading,
-    isError,
-    error,
+
     refetch: refetchUser,
   } = useQuery(
     "gitUser",
@@ -27,7 +30,13 @@ export default function Home() {
       enabled: false,
     }
   );
-  const { data: repoData, refetch: refetchRepo } = useQuery(
+  const {
+    data: repoData,
+    refetch: refetchRepo,
+    isLoading,
+    isError,
+    error,
+  } = useQuery(
     "repoList",
     async () => {
       return axios.get(repoUrl);
@@ -58,12 +67,20 @@ export default function Home() {
         refetchUser={refetchUser}
         refetchRepo={refetchRepo}
       />
-
       <HomeLayout>
-        {/* data is loading  */}
-        {isLoading && <p>Loading...</p>}
+        {/* initialState before user intracts */}
+        {!userData && !repoData && !isLoading && <InitialState />}
 
-        {/* if an error  */}
+        {/* data is loading  */}
+        {isLoading && (
+          <Feedbacks
+            component={
+              <PulseLoader speedMultiplier={0.5} size={30} color="#0064EB" />
+            }
+          />
+        )}
+
+        {/* if an error occured */}
 
         {/* render the user info */}
         {userData && repoData && (
