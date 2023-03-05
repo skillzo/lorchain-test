@@ -1,4 +1,5 @@
 import Head from "next/head";
+import style from "../styles/Home.module.css";
 import { ReactQueryDevtools } from "react-query/devtools";
 import HomeLayout from "@/components/layouts/HomeLayout";
 import Profile from "@/components/profile/Profile";
@@ -11,10 +12,17 @@ import { PulseLoader } from "react-spinners";
 import Feedbacks from "@/components/feedbacks/Feedbacks";
 import { BsPerson, BsSearch } from "react-icons/bs";
 import { MdCancelPresentation } from "react-icons/md";
+import { GrFormPrevious, GrFormNext } from "react-icons/gr";
+import ReactPaginate from "react-paginate";
+
+interface props {
+  selected: number;
+}
 
 export default function Home() {
   const [searchUser, setSearchUser] = useState("");
-  const repoUrl = `https://api.github.com/users/${searchUser}/repos?page=1&per_page=4&sort=updated`;
+  const [pageNumber, setPageNumber] = useState(1);
+  const repoUrl = `https://api.github.com/users/${searchUser}/repos?page=${pageNumber}&per_page=4&sort=updated`;
   const userUrl = `https://api.github.com/users/${searchUser}`;
 
   // api call using react query
@@ -36,7 +44,6 @@ export default function Home() {
     refetch: refetchRepo,
     isLoading,
     isError,
-    error,
   } = useQuery(
     "repoList",
     async () => {
@@ -50,6 +57,14 @@ export default function Home() {
   // user information
   const user = userData?.data;
   const repo = repoData?.data;
+
+  // pagination params
+  const totalPages = Math.round(user?.public_repos / 4);
+  const dataViewed = pageNumber * 4;
+  const handleClick = ({ selected }: props) => {
+    setPageNumber(selected + 1);
+    refetchRepo();
+  };
 
   return (
     <>
@@ -68,7 +83,6 @@ export default function Home() {
       />
       <HomeLayout>
         {/* initialState before user intracts */}
-
         {!userData && !repoData && !isLoading && !isError && (
           <Feedbacks
             component={<BsSearch size={100} />}
@@ -103,15 +117,15 @@ export default function Home() {
             )}
 
             {/* if the repo is empty */}
-            {repo?.length < 0 && (
+            {repo?.length < 1 && (
               <Feedbacks
                 component={<MdCancelPresentation size={100} />}
-                text="User not found"
+                text="Repository list is empty"
               />
             )}
-            {repoData && (
-              <section className="space-y-[1em] lg:w-[70%]">
-                <h1 className="text-2xl font-semibold">
+            {repoData && repo?.length > 0 && (
+              <section className="space-y-[1.5em] lg:w-[70%]">
+                <h1 className="text-2xl lg:text-3xl font-semibold">
                   Repositories ({user?.public_repos})
                 </h1>
 
@@ -129,8 +143,21 @@ export default function Home() {
                 </div>
 
                 {/* paginate thr result */}
-                <div className="border border-black flex justify-end">
-                  paginante
+                <div className="flex items-center justify-end  lg:w-[80%]">
+                  <div className="text-[#808080] text-sm md:text-base ">
+                    {pageNumber} - {pageNumber + 4} of {totalPages} items
+                  </div>
+                  <ReactPaginate
+                    previousLabel={<GrFormPrevious color="#0064eb" size={25} />}
+                    nextLabel={<GrFormNext color="#808080" size={25} />}
+                    breakLabel="..."
+                    pageRangeDisplayed={3}
+                    pageCount={totalPages || 5}
+                    onPageChange={handleClick}
+                    containerClassName={style.container}
+                    pageLinkClassName={style["page-link"]}
+                    activeLinkClassName={style.active}
+                  />
                 </div>
               </section>
             )}

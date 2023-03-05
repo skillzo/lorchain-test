@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  align-items: center;
+}
+.page-link {
+  padding: 0.5em 0.8em;
+  margin: 0 0.05em;
+  color: #808080;
+}
+@media (min-width: 768px) {
+  .page-link {
+    margin: 0 0.2em;
+  }
+}
+.page-link:hover,
+.active {
+  background-color: #0064eb;
+  color: white;
+}

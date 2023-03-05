@@ -17,7 +17,6 @@ export default function SearchBar({
     if (e.key === "Enter") {
       refetchUser();
       refetchRepo();
-      setSearch("");
     }
   };
   return (

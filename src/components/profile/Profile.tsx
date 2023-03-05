@@ -36,7 +36,7 @@ export default function Profile(user: any) {
           <div className="flex items-center space-x-1">
             <BsFillPersonFill size={20} color="#191C1F" />
             <p className="font-medium text-slate-700 text-sm">
-              {userData?.following} followers
+              {userData?.following} following
             </p>
           </div>
         </div>
