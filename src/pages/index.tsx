@@ -1,6 +1,5 @@
 import Head from "next/head";
 import style from "../styles/Home.module.css";
-import { ReactQueryDevtools } from "react-query/devtools";
 import HomeLayout from "@/components/layouts/HomeLayout";
 import Profile from "@/components/profile/Profile";
 import Repo from "@/components/cards/Repo";
@@ -143,7 +142,7 @@ export default function Home() {
                 </div>
 
                 {/* paginate the result */}
-                <div className="flex items-center justify-end  lg:w-[80%]">
+                <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-[1em] items-end  md:items-center justify-end  lg:w-[80%]">
                   <div className="text-[#808080] text-sm md:text-base ">
                     {pageNumber} - {pageNumber + 4} of {totalPages} items
                   </div>
