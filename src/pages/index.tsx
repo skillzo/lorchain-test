@@ -142,7 +142,7 @@ export default function Home() {
                   })}
                 </div>
 
-                {/* paginate thr result */}
+                {/* paginate the result */}
                 <div className="flex items-center justify-end  lg:w-[80%]">
                   <div className="text-[#808080] text-sm md:text-base ">
                     {pageNumber} - {pageNumber + 4} of {totalPages} items
@@ -163,8 +163,6 @@ export default function Home() {
             )}
           </div>
         )}
-
-        <ReactQueryDevtools initialIsOpen={true} position={"bottom-right"} />
       </HomeLayout>
     </>
   );
